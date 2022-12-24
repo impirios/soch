@@ -10,30 +10,7 @@ Tech Stack
     Backend API - Nodejs express 
     Front end - Angular
 
+api-url https://buzzed-api-prod-buzzed-api-x0o3ig.mo6.mogenius.io/v1/user/search
 
-Schema design 
-
-User : { 
-    id,
-    name,
-    alias,
-    password,
-    email,
-    created_at,
-    lastActivityAt,
-    thumbImage
-}
-
-PostSchema : { 
-    id,
-    created_at,
-    content,
-    author,
-    authorAlias
-}
-
-RelationshipSchema : {
-    from,
-    to,
-    started_at
-}
+docker image
+ impirios/buzzed-api
