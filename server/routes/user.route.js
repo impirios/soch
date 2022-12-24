@@ -7,10 +7,10 @@ import validate from 'express-validation';
 const router = express.Router();
 
 router.route('/signup')
-    .post(validate(userValidator.signup), userController.signup)
+    .post(userController.signup)
 
 router.route('/login')
-    .post(validate(userValidator.login), userController.login)
+    .post(userController.login)
 
 router.route('/')
     .get(middleware.checkLogin, userController.getProfile)

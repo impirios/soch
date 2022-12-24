@@ -2,7 +2,7 @@ FROM node:16
 
 WORKDIR /usr/app
 
-COPY ./dist ./
+COPY ./ ./
 
 
 RUN npm cache clean -f
@@ -11,7 +11,7 @@ RUN rm -rf package-lock.json
 
 RUN rm -rf node_modules
 
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 RUN ls -a
 
