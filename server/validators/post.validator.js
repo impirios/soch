@@ -18,3 +18,9 @@ const getPost = {
         id: Joi.string().required()
     }
 }
+
+export default {
+    post,
+    update,
+    getPost
+}

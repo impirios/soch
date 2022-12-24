@@ -15,3 +15,8 @@ const signup = {
         email: Joi.string().required()
     }
 };
+
+export default{
+    login,
+    signup
+}
