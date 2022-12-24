@@ -1,0 +1,35 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "twitter clone api",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node app.js "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/impirios/soch.git"
+  },
+  "author": "yogesh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/impirios/soch/issues"
+  },
+  "homepage": "https://github.com/impirios/soch#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "bluebird": "^3.7.2",
+    "body-parser": "^1.20.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.7",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "nodemon": "^2.0.20"
+  }
+}
