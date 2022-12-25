@@ -14,6 +14,9 @@ function convertToSlug(Text) {
 async function signup(req, res, next) {
     console.log(req.body)
     const user = req.body;
+    if(user.email && user.alias && user.name && user.password){
+
+    
     const userExists = await userService.get(user.alias, user.email);
     if (userExists) {
         return res.status(409).send({
@@ -26,18 +29,24 @@ async function signup(req, res, next) {
     }
 
     user.alias = convertToSlug(user.alias);
-    console.log(user.alias)
+    console.log(user)
     return userService.create(user)
-        .then(user => {
-            const authToken = jwt.sign({
-                _id: user._id,
-                hashedPassword: user.password,
-                name: user.name,
-                alias: user.alias,
-                email: user.email,
-            }, config.jwtSecret);
+        .then(savedUser => {
+            console.log(savedUser)
+            try {
+                const authToken = jwt.sign({
+                    _id: savedUser._id,
+                    hashedPassword: savedUser.password,
+                    name: savedUser.name,
+                    alias: savedUser.alias,
+                    email: savedUser.email,
+                }, config.jwtSecret);
+                console.log(authToken)
+                return res.json({ status: true, data: authToken, message: "account created" })
 
-            return res.json({ status: true, data: authToken, message: "account created" })
+            } catch (error) {
+                console.log(error)
+            }
 
         })
         .catch(err => res.status(500).send({
@@ -45,11 +54,18 @@ async function signup(req, res, next) {
             err
         }))
 
+    }
+    else{
+        return res.status(400).send({
+            message: 'please enter all the fields!'
+        })
+    }
+
 }
 
 async function login(req, res, next) {
     const { username, password } = req.body;
-    let user = await userService.get(username);
+    let user = await userService.get(username,username);
 
     if (!user) {
         return res.status(404).send({
@@ -69,11 +85,19 @@ async function login(req, res, next) {
         delete user.password;
         return res.json({ status: true, data: user });
     }
+    else{
+        return res.status(401).send({
+            message: 'Incorrect credentials!'
+        });
+    }
 }
 
 async function getProfile(req, res, next) {
-    const alias = req.user.alias;
-    const user = await userService.get(alias);
+    let alias = req.query.alias,id = '';
+    if(alias.length == 24){
+        id = alias;
+    }
+    const user = await userService.get(alias,alias,id);
     if (!user) {
         return res.status(404).send({
             message: 'user does not exist!'
@@ -91,6 +115,16 @@ function getUsers(req, res, next) {
         .then(users => res.json({ status: true, data: users }))
         .catch(err => res.status(404).send({
             message: 'No such user!'
+        }))
+}
+
+function getAllUsers(req, res, next) {
+    let userId = req.user._id;
+    return userService.getAll(userId)
+        .then(users => res.json({ status: true, data: users }))
+        .catch(err => res.status(404).send({
+            message: 'No such user!',
+            err
         }))
 }
 
@@ -117,5 +151,6 @@ export default {
     login,
     getProfile,
     updateProfile,
-    getUsers
+    getUsers,
+    getAllUsers
 }

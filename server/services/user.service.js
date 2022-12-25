@@ -36,14 +36,54 @@ class UserService {
         return this.userModel.findOneAndUpdate({ alias }, updatedUser, { new: true });
     }
 
-    getAll() {
-        return this.userModel.find({}).lean();
+    getAll(userId) {
+        console.log(JSON.stringify([
+
+            {
+                "$addFields": { "userId": { "$toString": "$_id" } }
+            },
+            {
+                $match:{
+                    "userId": {$ne:userId}
+                }
+            },
+            {
+                $lookup: {
+                    from: "relations",
+                    localField: "userId",
+                    foreignField: "to",
+                    as: "relation"
+                }
+            }
+        ]))
+        return this.userModel.aggregate([
+            {
+                $match:{
+                    "_id": {$ne:mongoose.Types.ObjectId(userId)}
+                }
+            },
+            {
+                "$addFields": { "userId": { "$toString": "$_id" } }
+            },
+            {
+                $lookup: {
+                    from: "relations",
+                    localField: "userId",
+                    foreignField: "to",
+                    as: "relation"
+                }
+            }
+        ]);
     }
 
     search(text) {
-        const query = {
-            $text: { $search: text }
+        let query = {};
+        if (text) {
+            query = {
+                $text: { $search: text }
+            }
         }
+
         return this.userModel.find(query).select("-password").lean();
     }
 }

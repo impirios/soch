@@ -12,7 +12,7 @@ async function checkLogin(req, res, next) {
             var decoded = jwt.verify(token, config.jwtSecret);
             const user = await userService.get(undefined,undefined,decoded._id);
             if(user){
-                req.user = decoded;
+                req.user = user;
                 return next();
     
             }

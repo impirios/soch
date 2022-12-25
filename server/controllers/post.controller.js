@@ -21,6 +21,12 @@ function createPost(req, res, next) {
     let post = req.body;
     post.tags = extractTags(post.content);
     post.authorId = req.user._id;
+    post.userData = {
+        name:req.user.name,
+        alias:req.user.alias,
+        thumbImage:req.user.thumbImage
+    }
+    post.created_at=new Date();
     return postService.create(post).then(p => {
         return res.json({ status: true, message: "post created" })
     });
@@ -74,6 +80,14 @@ function searchPosts(req, res, next) {
 
 }
 
+function getById(req, res, next) {
+    const query = req.query.userId;
+    return postService.getByUserId(query)
+        .then(posts => res.json({ status: true, data: posts }))
+        .catch(err => res.status(404).send({ message: "No Matching posts" }))
+
+}
+
 export default {
     createPost,
     updatePost,
@@ -81,5 +95,6 @@ export default {
     getAllPosts,
     getPostsByTags,
     searchPosts,
-    deletePost
+    deletePost,
+    getById
 }

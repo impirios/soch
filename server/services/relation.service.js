@@ -15,7 +15,7 @@ class RelationService {
     }
 
     delete(user1, user2) {
-        return this.relationModel.findOneAndDelete({ from: user1, to: user2 });
+        return this.relationModel.findOneAndDelete({ from: user1, to: user2 })
     }
 
     get(user1, user2) {

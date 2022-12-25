@@ -19,4 +19,7 @@ router.route('/')
 router.route('/search')
     .get(userController.getUsers)
 
+router.route('/all')
+    .get(middleware.checkLogin, userController.getAllUsers)
+
 export default router;

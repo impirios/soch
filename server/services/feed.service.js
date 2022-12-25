@@ -10,10 +10,15 @@ class FeedService {
     }
 
     getFeed(userId){
-        this.relationModel.aggregate([
+        console.log(userId,"yo")
+        return this.relationModel.aggregate([
+            {
+                "$addFields": { "fromF": { "$toObjectId": "$from" } },
+
+            },
             {
                 $match: {
-                    "from": { $eq: userId }
+                    "fromF": { $eq:  userId }
                 }
             },
             {

@@ -27,7 +27,7 @@ class PostService {
         if (userId) {
             query = { userId };
         }
-        return this.postModel.find(query).skip(page * perPage).limit(perPage).sort(sortBy).lean();
+        return this.postModel.find(query).skip(page * perPage).limit(perPage).sort({"created_at":-1}).lean();
     }
     search(text) {
         const query = {
@@ -37,7 +37,8 @@ class PostService {
     }
 
     getByUserId(id) {
-        return this.postModel.find({ authorId: id }).lean();
+        console.log("hey",JSON.stringify(id))
+        return this.postModel.find({ authorId: id.toString()}).lean();
     }
 
     searchByTags(tags = []) {

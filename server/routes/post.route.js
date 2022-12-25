@@ -21,4 +21,7 @@ router.route('/search')
 router.route('/searchByTags')
     .get(postController.getPostsByTags)
 
+router.route('/searchById')
+    .get(postController.getById)
+
 export default router;

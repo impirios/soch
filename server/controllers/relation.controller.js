@@ -23,10 +23,12 @@ async function follow(req, res, next) {
     }
 }
 
-function unFollow(req, res, next) {
+async function unFollow(req, res, next) {
     const userId = req.user._id, followingId = req.body.userId;
+    const following = await userService.get(undefined, undefined, followingId);
+
     if (userId && followingId) {
-        return relationService.delete(userId, followingId).then(x => res.json({ status: true, message: "unfollowed " + req.body.alias }))
+        return relationService.delete(userId, followingId).then(x => res.json({ status: true, message: "unfollowed " + following.alias }))
     }
     else {
         res.status(500).send({ message: "Internal server error" });
