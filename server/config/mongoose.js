@@ -8,7 +8,7 @@ let mongoUri = 'mongodb://';
 
 mongoUri += `${config.mongoHost}:${config.mongoPort}/${config.dbName}`;
 if(config.env == 'production'){
-    mongoUri = ``
+    mongoUri = `mongodb+srv://impirios:groffers@cluster0.vwylo.mongodb.net/${config.dbName}?retryWrites=true&w=majority`
 }
 
 mongoose.connect(mongoUri);
