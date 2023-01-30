@@ -34,6 +34,24 @@ class FeedService {
         ])
     }
 
+    getFeed(){
+
+    }
+
+    getExploreFeed(){
+
+    }
+
+    getFeedByTags(){
+
+    }
+
+    getSuggestedFeed(){
+
+    }
+
+
+
 
 }
 

@@ -1,5 +1,6 @@
 import middleware from "../helpers/middleware";
 import PostService from "../services/post.service";
+import esController from "./es.controller";
 
 const postService = new PostService();
 
@@ -22,13 +23,18 @@ function createPost(req, res, next) {
     post.tags = extractTags(post.content);
     post.authorId = req.user._id;
     post.userData = {
-        name:req.user.name,
-        alias:req.user.alias,
-        thumbImage:req.user.thumbImage
+        name: req.user.name,
+        alias: req.user.alias,
+        thumbImage: req.user.thumbImage
     }
-    post.created_at=new Date();
+    post.created_at = new Date();
     return postService.create(post).then(p => {
-        return res.json({ status: true, message: "post created" })
+        let promises = [
+            esController.pushPostToES(p)
+        ]
+        return Promise.all(promises).then(x=>{
+            return res.json({ status: true, message: "post created" });
+        })
     });
 }
 
@@ -37,7 +43,13 @@ function updatePost(req, res, next) {
     post.tags = extractTags(post.content);
     post.edited = true;
     return postService.update(post.id, post).then(p => {
-        return res.json({ status: true, message: "post created" })
+        let promises = [
+            esController.pushPostToES(p)
+        ]
+        return Promise.all(promises).then(x=>{
+            return res.json({ status: true, message: "post updated" });
+        })
+
     });
 }
 

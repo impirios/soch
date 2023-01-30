@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/impirios/soch#readme",
   "dependencies": {
+    "@elastic/elasticsearch": "^8.6.0",
     "bcrypt": "^5.1.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.20.1",

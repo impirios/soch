@@ -7,7 +7,8 @@ const config = {
     port: envVars.PORT,
     mongoHost: envVars.MONGO_HOST,
     mongoPort: envVars.MONGO_PORT,
-    dbName:envVars.DB_NAME
+    dbName:envVars.DB_NAME,
+    esUri:envVars.ES_URI
 }
 
 export default config;
